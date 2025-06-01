@@ -1,2 +1,1 @@
-# api controle estoque
-API básica de controle de estoque
+# API de Controle de Estoque
