@@ -180,6 +180,14 @@ Contém classes para tratamento de exceções personalizadas, como:
 
 Classe principal que inicia a aplicação Spring Boot.
 
+## 🔮 Melhorias Futuras (TODO)
+
+* [ ] Implementar testes unitários e de integração para o backend.
+* [ ] Persistir dados em um banco relacional (PostgreSQL, MySQL) em vez de H2 em memória.
+* [ ] Adicionar suporte a documentação da API com Swagger.
+* [ ] Implementar front-end para interação com a API.
+* [ ] Adicionar autenticação e autorização (JWT).
+
 ## 📄 Licença
 
 Este projeto é distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
