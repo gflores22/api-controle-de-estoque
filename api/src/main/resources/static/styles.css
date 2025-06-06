@@ -1,0 +1,23 @@
+body {
+    background-color: #F5F5F5;
+}
+
+.editable-cell {
+    position: relative;
+}
+
+.editable-cell .edit-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.editable-cell:hover .edit-icon {
+    display: inline;
+}
