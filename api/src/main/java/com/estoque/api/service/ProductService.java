@@ -1,13 +1,16 @@
 package com.estoque.api.service;
 
+import com.estoque.api.DTO.ProductDTO;
 import com.estoque.api.exception.ProductNotFoundException;
 import com.estoque.api.model.Product;
 import com.estoque.api.repository.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class ProductService {
@@ -19,23 +22,44 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> showProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> showProducts() {
+        return productRepository.findAll().stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getQuantity(),
+                        product.getPrice()))
+                .collect(Collectors.toList());
     }
 
-    public List<Product> showProductsByQuantityLessThan(int quantity) {
+    public List<ProductDTO> showProductsByQuantityLessThan(int quantity) {
         if(quantity < 0) {
             throw new IllegalArgumentException("A quantidade deve ser maior ou igual a zero");
         }
-        if(productRepository.findByQuantityLessThan(quantity).isEmpty()) {
+        List<Product> products = productRepository.findByQuantityLessThan(quantity);
+        if(products.isEmpty()) {
             throw new ProductNotFoundException("Nenhum produto encontrado com quantidade menor que " + quantity);
         }
-        return productRepository.findByQuantityLessThan(quantity);
+        return products.stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getQuantity(),
+                        product.getPrice()))
+                .collect(Collectors.toList());
     }
 
-    public Product findProductById(Long id) {
-        return productRepository.findById(id)
+    public ProductDTO findProductById(Long id) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Produto com ID " + id + " não encontrado"));
+        return new ProductDTO(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getQuantity(),
+                product.getPrice());
     }
 
     public Product updateProduct(Long id, @Valid Product updatedProduct) {
